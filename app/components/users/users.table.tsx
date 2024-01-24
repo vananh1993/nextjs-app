@@ -3,38 +3,41 @@ import { Table } from 'antd'
 import type { ColumsType } from 'antd/es/table'
 import { IUser } from '../types/backend'
 
-const UsersTable = () => {
+interface Iprops {
+	users: IUser[] | []
+}
+
+const UsersTable = (props: Iprops) => {
+
+	const { users } = props;
 	const dataSource = [
 	  {
-	    key: '1',
-	    name: 'Mike',
-	    age: 32,
-	    address: '10 Downing Street',
+	    id: '1',
+	    name: '10 Downing Street',
+	    email: "test@test.com",
+	    key:'1'
 	  },
 	  {
-	    key: '2',
-	    name: 'John',
-	    age: 42,
-	    address: '10 Downing Street',
+	    id: '2',
+	    name: '10 Downing Street 2',
+	    email: "test@test.com",
+	    key:'2'
 	  },
 	];
 
-	const columns : ColumsType<IUser> = [
+	const columns: ColumsType<IUser> = [
+	  {
+	    title: 'Id',
+	    dataIndex: 'id',
+	  },
+	  {
+	    title: 'Email',
+	    dataIndex: 'email',
+	  },
 	  {
 	    title: 'Name',
 	    dataIndex: 'name',
-	    key: 'name',
-	  },
-	  {
-	    title: 'Age',
-	    dataIndex: 'age',
-	    key: 'age',
-	  },
-	  {
-	    title: 'Address',
-	    dataIndex: 'address',
-	    key: 'address',
-	  },
+	  }
 	];
 
 
@@ -43,7 +46,7 @@ const UsersTable = () => {
 			
 			<Table
 				bordered
-				dataSource={dataSource} columns={columns} />
+				dataSource={users} columns={columns} />
 		</div>
 	)
 }

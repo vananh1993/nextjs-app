@@ -1,5 +1,6 @@
 'use client'
 import UsersTable from '../components/users/users.table'
+
 const UsersPage = async () => {
 	const res = await fetch("http://localhost:8000/users", {
 		method: "GET"
@@ -9,7 +10,9 @@ const UsersPage = async () => {
 	return (
 		<div>
 			<p>Users Page</p>
-			<UsersTable/>
+			<UsersTable
+				users={data? data : []}
+			/>
 		</div>
 	)
 }
