@@ -2,14 +2,20 @@
 import { Table } from 'antd'
 import type { ColumsType } from 'antd/es/table'
 import { IUser } from '../types/backend'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 interface Iprops {
-	users: IUser[] | []
+	users: IUser[] | [],
+	meta: {
+		current: number;
+		pageSize: number;
+		total: number
+	}
 }
 
 const UsersTable = (props: Iprops) => {
 
-	const { users } = props;
+	const { users, meta } = props;
 	const dataSource = [
 	  {
 	    id: '1',
@@ -40,13 +46,33 @@ const UsersTable = (props: Iprops) => {
 	  }
 	];
 
+	const onChange = (pagination:any, filters: any, sorter: any, extra: any) => {
+		if(pagination && pagination.current) {
+			const params = new URLSearchParams(searchParams);
+			params.set('page', pagination.current);
+			replace(`${pathname}?${params.toString()}`)
+		}
+	}
 
 	return (
 		<div>
 			
 			<Table
+				rowKey={"id"}
 				bordered
-				dataSource={users} columns={columns} />
+				dataSource={users} 
+				columns={columns}
+				onChange={onChange}
+				pagination={
+					{
+						...meta,
+						showTotal: (total, range) => {
+							return (<div> {range[0]}/{range[1]} rows </div>)
+						}
+					}
+				}
+				// pagination={{ defaultPageSize: 25, showSizeChanger: true, pageSizeOptions: ['25', '50', '100']}}
+				 />
 		</div>
 	)
 }
