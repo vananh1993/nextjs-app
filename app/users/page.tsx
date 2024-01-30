@@ -26,7 +26,7 @@ const UsersPage = async (props: any) => {
 				users={data? data : []}
 				meta={
 					{
-						current: page,
+						current: +page,
 						pageSize: LIMIT,
 						total: total_items
 					}
