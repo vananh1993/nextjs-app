@@ -1,9 +1,10 @@
 'use client'
+
 import { Table } from 'antd'
 import type { ColumsType } from 'antd/es/table'
 import { IUser } from '../types/backend'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-// import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 interface Iprops {
 	users: IUser[] | [],
@@ -20,13 +21,14 @@ const UsersTable = (props: Iprops) => {
 	const searchParams = useSearchParams();
 	const pathname = usePathname();
 	const { replace } = useRouter();
-	// const [ isFetching, setIsFetching ] = useState<boolean>(false);
+	const [ isFetching, setIsFetching ] = useState<boolean>(false);
 
 
 
-	// useEffect (() => {
-	// 	if(users) setIsFetching(false)
-	// }, [users]);
+	useEffect (() => {
+		if(users) setIsFetching(false)
+	}, [users]);
+
 	
 	const dataSource = [
 	  {
@@ -63,7 +65,7 @@ const UsersTable = (props: Iprops) => {
 			const params = new URLSearchParams(searchParams);
 			params.set('page', pagination.current);
 			replace(`${pathname}?${params.toString()}`)
-			// setIsFetching(true)
+			setIsFetching(true)
 		}
 	}
 
@@ -71,7 +73,7 @@ const UsersTable = (props: Iprops) => {
 		<div>
 			
 			<Table
-				// loading={isFetching}
+				loading={isFetching}
 				rowKey={"id"}
 				bordered
 				dataSource={users} 

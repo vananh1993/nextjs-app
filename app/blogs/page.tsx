@@ -1,6 +1,6 @@
 const BlogsPage = () => {
 	return (
-		<div>
+		<div  className="flex min-h-screen flex-col ">
 			<p>BlogsPage</p>
 		</div>
 	)
