@@ -1,5 +1,5 @@
 
-import { handleUpdateUserAction } from '@/actions/index';
+import { handleUpdateBlogAction } from '@/actions/blogs';
 import {
     Modal, Input,
     Form, Row, Col, message
@@ -13,21 +13,22 @@ interface IProps {
     setDataUpdate: any;
 }
 
-const UpdateUser = (props: IProps) => {
+const UpdateBlog = (props: IProps) => {
 
     const {
         isUpdateModalOpen, setIsUpdateModalOpen,
         dataUpdate, setDataUpdate
     } = props;
-
+    // console.log(setDataUpdate);
     const [form] = Form.useForm();
 
     useEffect(() => {
         if (dataUpdate) {
             //code
             form.setFieldsValue({
-                name: dataUpdate.name,
-                email: dataUpdate.email,
+                title: dataUpdate.title,
+                author: dataUpdate.author,
+                content: dataUpdate.content,
             })
         }
     }, [dataUpdate])
@@ -39,22 +40,24 @@ const UpdateUser = (props: IProps) => {
     }
 
     const onFinish = async (values: any) => {
-        const { name, email } = values;
+        const { title, author, content } = values;
         if (dataUpdate) {
             const data = {
                 id: dataUpdate.id, //undefined
-                name, email
+                title, author, content, 
             }
 
-            await handleUpdateUserAction(data)
+            await handleUpdateBlogAction(data)
             handleCloseUpdateModal();
-            message.success("Update user succeed")
+            message.success("Update Blog succeed")
         }
     };
 
+    const { TextArea } = Input;
+
     return (
         <Modal
-            title="Update a user"
+            title="Update a Blog"
             open={isUpdateModalOpen}
             onOk={() => form.submit()}
             onCancel={() => handleCloseUpdateModal()}
@@ -67,22 +70,31 @@ const UpdateUser = (props: IProps) => {
                 form={form}
             >
                 <Row gutter={[15, 15]}>
-                    <Col span={24} md={12}>
+                    <Col span={24} md={24}>
                         <Form.Item
-                            label="Name"
-                            name="name"
+                            label="Title"
+                            name="title"
                             rules={[{ required: true, message: 'Please input your name!' }]}
                         >
                             <Input />
                         </Form.Item>
                     </Col>
-                    <Col span={24} md={12}>
+                    <Col span={24} md={24}>
                         <Form.Item
-                            label="Email"
-                            name="email"
+                            label="Author"
+                            name="author"
                             rules={[{ required: true, message: 'Please input your email!' }]}
                         >
-                            <Input type='email' />
+                            <Input type='text' />
+                        </Form.Item>
+                    </Col>
+                    <Col span={24} md={24}>
+                        <Form.Item
+                            label="Content"
+                            name="content"
+                            rules={[{ required: true, message: 'Please input your content!' }]}
+                        >
+                            <TextArea rows={4} />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -91,4 +103,4 @@ const UpdateUser = (props: IProps) => {
     )
 }
 
-export default UpdateUser;
+export default UpdateBlog;

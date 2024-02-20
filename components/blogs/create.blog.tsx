@@ -1,5 +1,5 @@
 
-import { handleCreateUserAction } from '@/actions/index';
+import { handleCreateBlogAction } from '@/actions/blogs';
 import {
     Modal, Input, Form, Row, Col, message
 } from 'antd';
@@ -9,7 +9,7 @@ interface IProps {
     setIsCreateModalOpen: (v: boolean) => void;
 }
 
-const CreateUser = (props: IProps) => {
+const CreateBlog = (props: IProps) => {
 
     const {
         isCreateModalOpen, setIsCreateModalOpen
@@ -24,7 +24,7 @@ const CreateUser = (props: IProps) => {
     }
 
     const onFinish = async (values: any) => {
-        const res = await handleCreateUserAction(values);
+        const res = await handleCreateBlogAction(values);
         if (res?.id) {
             handleCloseCreateModal();
             message.success("Create succeed!")
@@ -32,9 +32,11 @@ const CreateUser = (props: IProps) => {
 
     };
 
+    const { TextArea } = Input;
+    
     return (
         <Modal
-            title="Add new user"
+            title="Add new Blog"
             open={isCreateModalOpen}
             onOk={() => form.submit()}
             onCancel={() => handleCloseCreateModal()}
@@ -47,7 +49,7 @@ const CreateUser = (props: IProps) => {
                 form={form}
             >
                 <Row gutter={[15, 15]}>
-                    <Col span={24} md={12}>
+                    <Col span={24} md={24}>
                         <Form.Item
                             label="Title"
                             name="title"
@@ -56,7 +58,7 @@ const CreateUser = (props: IProps) => {
                             <Input />
                         </Form.Item>
                     </Col>
-                    <Col span={24} md={12}>
+                    <Col span={24} md={24}>
                         <Form.Item
                             label="Author"
                             name="author"
@@ -65,10 +67,19 @@ const CreateUser = (props: IProps) => {
                             <Input type='text' />
                         </Form.Item>
                     </Col>
+                    <Col span={24} md={24}>
+                        <Form.Item
+                            label="Content"
+                            name="content"
+                            rules={[{ required: true, message: 'Please input your content!' }]}
+                        >
+                            <TextArea rows={4} />
+                        </Form.Item>
+                    </Col>
                 </Row>
             </Form>
         </Modal>
     )
 }
 
-export default CreateUser;
+export default CreateBlog;

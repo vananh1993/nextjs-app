@@ -7,9 +7,9 @@ import { Avatar, List, Popconfirm, Button } from 'antd';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { PlusOutlined, DeleteTwoTone, EditTwoTone } from '@ant-design/icons';
-import CreateUser from './create.blog';
-import UpdateUser from './update.blog';
-import { handleDeleteUserAction } from '@/actions/blogs';
+import CreateBlog from './create.blog';
+import UpdateBlog from './update.blog';
+import { handleDeleteBlogAction } from '@/actions/blogs';
 
 interface Iprops {
 	blogs: {
@@ -54,7 +54,28 @@ interface Iprops {
 			    dataSource={blogs}
 			    renderItem={(item, index) => (
 			      <List.Item
-			       actions={[<a key="list-loadmore-edit">edit</a>, <a key="list-loadmore-more">more</a>]} 
+			       actions={[<>
+                        <EditTwoTone
+                            twoToneColor="#f57800" style={{ cursor: "pointer", margin: "0 20px" }}
+                            onClick={() => {
+                                setIsUpdateModalOpen(true);
+                                setDataUpdate(item);
+                            }}
+                        />
+
+                        <Popconfirm
+                            placement="leftTop"
+                            title={"Xác nhận xóa Blog"}
+                            description={"Bạn có chắc chắn muốn xóa Blog này ?"}
+                            onConfirm={() => handleDeleteBlog(item)}
+                            okText="Xác nhận"
+                            cancelText="Hủy"
+                        >
+                            <span style={{ cursor: "pointer" }}>
+                                <DeleteTwoTone twoToneColor="#ff4d4f" />
+                            </span>
+                        </Popconfirm>
+                    </>]} 
 			      >
 			        <List.Item.Meta
 			          avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`} />}
@@ -65,7 +86,17 @@ interface Iprops {
 			      </List.Item>
 			    )}
 			  />
-				<h1>gnsdnglk</h1>
+			<CreateBlog
+                isCreateModalOpen={isCreateModalOpen}
+                setIsCreateModalOpen={setIsCreateModalOpen}
+            />
+
+            <UpdateBlog
+                isUpdateModalOpen={isUpdateModalOpen}
+                setIsUpdateModalOpen={setIsUpdateModalOpen}
+                dataUpdate={dataUpdate}
+                setDataUpdate={setDataUpdate}
+            />
 		
 		</div>
 	)
