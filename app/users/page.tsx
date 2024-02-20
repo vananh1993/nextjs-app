@@ -13,7 +13,7 @@ const UsersPage = async (props: any) => {
     );
     const total_items = +(res.headers?.get("X-Total-Count") ?? 0)
     const data = await res.json();
-
+    // console.log('11111',data);
     return (
         <div>
             <UsersTable

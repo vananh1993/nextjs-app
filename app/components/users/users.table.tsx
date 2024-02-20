@@ -30,21 +30,7 @@ const UsersTable = (props: Iprops) => {
 	}, [users]);
 
 	
-	const dataSource = [
-	  {
-	    id: '1',
-	    name: '10 Downing Street',
-	    email: "test@test.com",
-	    key:'1'
-	  },
-	  {
-	    id: '2',
-	    name: '10 Downing Street 2',
-	    email: "test@test.com",
-	    key:'2'
-	  },
-	];
-
+	
 	const columns: ColumsType<IUser> = [
 	  {
 	    title: 'Id',
@@ -87,7 +73,6 @@ const UsersTable = (props: Iprops) => {
 						}
 					}
 				}
-				// pagination={{ defaultPageSize: 25, showSizeChanger: true, pageSizeOptions: ['25', '50', '100']}}
 				 />
 		</div>
 	)

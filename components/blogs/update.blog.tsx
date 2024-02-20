@@ -1,43 +1,63 @@
 
-import { handleCreateUserAction } from '@/actions/index';
+import { handleUpdateUserAction } from '@/actions/index';
 import {
-    Modal, Input, Form, Row, Col, message
+    Modal, Input,
+    Form, Row, Col, message
 } from 'antd';
+import { useEffect } from 'react';
 
 interface IProps {
-    isCreateModalOpen: boolean;
-    setIsCreateModalOpen: (v: boolean) => void;
+    isUpdateModalOpen: boolean;
+    setIsUpdateModalOpen: (v: boolean) => void;
+    dataUpdate: any;
+    setDataUpdate: any;
 }
 
-const CreateUser = (props: IProps) => {
+const UpdateUser = (props: IProps) => {
 
     const {
-        isCreateModalOpen, setIsCreateModalOpen
+        isUpdateModalOpen, setIsUpdateModalOpen,
+        dataUpdate, setDataUpdate
     } = props;
 
     const [form] = Form.useForm();
 
-    const handleCloseCreateModal = () => {
-        form.resetFields()
-        setIsCreateModalOpen(false);
+    useEffect(() => {
+        if (dataUpdate) {
+            //code
+            form.setFieldsValue({
+                name: dataUpdate.name,
+                email: dataUpdate.email,
+            })
+        }
+    }, [dataUpdate])
 
+    const handleCloseUpdateModal = () => {
+        form.resetFields()
+        setIsUpdateModalOpen(false);
+        setDataUpdate(null)
     }
 
     const onFinish = async (values: any) => {
-        const res = await handleCreateUserAction(values);
-        if (res?.id) {
-            handleCloseCreateModal();
-            message.success("Create succeed!")
-        }
+        const { name, email } = values;
+        if (dataUpdate) {
+            const data = {
+                id: dataUpdate.id, //undefined
+                name, email
+            }
 
+            await handleUpdateUserAction(data)
+            handleCloseUpdateModal();
+            message.success("Update user succeed")
+        }
     };
 
     return (
         <Modal
-            title="Add new user"
-            open={isCreateModalOpen}
+            title="Update a user"
+            open={isUpdateModalOpen}
             onOk={() => form.submit()}
-            onCancel={() => handleCloseCreateModal()}
+            onCancel={() => handleCloseUpdateModal()}
             maskClosable={false}
         >
             <Form
@@ -71,4 +91,4 @@ const CreateUser = (props: IProps) => {
     )
 }
 
-export default CreateUser;
+export default UpdateUser;
