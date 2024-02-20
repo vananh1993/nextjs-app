@@ -49,8 +49,8 @@ const CreateUser = (props: IProps) => {
                 <Row gutter={[15, 15]}>
                     <Col span={24} md={12}>
                         <Form.Item
-                            label="Name"
-                            name="name"
+                            label="Title"
+                            name="title"
                             rules={[{ required: true, message: 'Please input your name!' }]}
                         >
                             <Input />
@@ -58,11 +58,11 @@ const CreateUser = (props: IProps) => {
                     </Col>
                     <Col span={24} md={12}>
                         <Form.Item
-                            label="Email"
-                            name="email"
+                            label="Author"
+                            name="author"
                             rules={[{ required: true, message: 'Please input your email!' }]}
                         >
-                            <Input type='email' />
+                            <Input type='text' />
                         </Form.Item>
                     </Col>
                 </Row>

@@ -1,11 +1,15 @@
 'use client'
 
 // import { Table } from 'antd'
-import { Avatar, List } from 'antd';
+import { Avatar, List, Popconfirm, Button } from 'antd';
 // import type { ColumsType } from 'antd/es/table'
 // import { IUser } from '../types/backend'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
+import { PlusOutlined, DeleteTwoTone, EditTwoTone } from '@ant-design/icons';
+import CreateUser from './create.blog';
+import UpdateUser from './update.blog';
+import { handleDeleteUserAction } from '@/actions/blogs';
 
 interface Iprops {
 	blogs: {
@@ -20,21 +24,32 @@ interface Iprops {
 	const {blogs} = props;
 
 
+	const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
+    const [dataUpdate, setDataUpdate] = useState<any>(null);
 
-	// const searchParams = useSearchParams();
-	// const pathname = usePathname();
-	// const { replace } = useRouter();
+	const handleDeleteBlog = async (blog: any) => {
+        await handleDeleteBlogAction({ id: blog.id })
+    };
 
-	// console.log(blogs)
-
-	// useEffect (() => {
-	// 	if(blogs) setIsFetching(false)
-	// }, [blogs]);
-
+    const renderHeader = () => {
+        return (
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Button
+                    icon={<PlusOutlined />}
+                    type="primary"
+                    onClick={() => setIsCreateModalOpen(true)}
+                >
+                    Thêm mới
+                </Button>
+            </div>
+        )
+    }
 
 	return (
-		<div>
+		<div >
 			<List
+				header={renderHeader()}
 			    itemLayout="horizontal"
 			    dataSource={blogs}
 			    renderItem={(item, index) => (
