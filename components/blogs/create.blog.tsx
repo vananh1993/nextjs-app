@@ -1,5 +1,5 @@
 
-import { handleCreateUserAction } from '@/actions/index';
+import { handleCreateBlogAction } from '@/actions/blogs';
 import {
     Modal, Input, Form, Row, Col, message
 } from 'antd';
@@ -9,7 +9,7 @@ interface IProps {
     setIsCreateModalOpen: (v: boolean) => void;
 }
 
-const CreateUser = (props: IProps) => {
+const CreateBlog = (props: IProps) => {
 
     const {
         isCreateModalOpen, setIsCreateModalOpen
@@ -24,7 +24,7 @@ const CreateUser = (props: IProps) => {
     }
 
     const onFinish = async (values: any) => {
-        const res = await handleCreateUserAction(values);
+        const res = await handleCreateBlogAction(values);
         if (res?.id) {
             handleCloseCreateModal();
             message.success("Create succeed!")
@@ -32,9 +32,11 @@ const CreateUser = (props: IProps) => {
 
     };
 
+    const { TextArea } = Input;
+    
     return (
         <Modal
-            title="Add new user"
+            title="Add new Blog"
             open={isCreateModalOpen}
             onOk={() => form.submit()}
             onCancel={() => handleCloseCreateModal()}
@@ -47,22 +49,31 @@ const CreateUser = (props: IProps) => {
                 form={form}
             >
                 <Row gutter={[15, 15]}>
-                    <Col span={24} md={12}>
+                    <Col span={24} md={24}>
                         <Form.Item
-                            label="Name"
-                            name="name"
+                            label="Title"
+                            name="title"
                             rules={[{ required: true, message: 'Please input your name!' }]}
                         >
                             <Input />
                         </Form.Item>
                     </Col>
-                    <Col span={24} md={12}>
+                    <Col span={24} md={24}>
                         <Form.Item
-                            label="Email"
-                            name="email"
+                            label="Author"
+                            name="author"
                             rules={[{ required: true, message: 'Please input your email!' }]}
                         >
-                            <Input type='email' />
+                            <Input type='text' />
+                        </Form.Item>
+                    </Col>
+                    <Col span={24} md={24}>
+                        <Form.Item
+                            label="Content"
+                            name="content"
+                            rules={[{ required: true, message: 'Please input your content!' }]}
+                        >
+                            <TextArea rows={4} />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -71,4 +82,4 @@ const CreateUser = (props: IProps) => {
     )
 }
 
-export default CreateUser;
+export default CreateBlog;
