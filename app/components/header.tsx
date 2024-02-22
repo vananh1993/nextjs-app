@@ -1,37 +1,29 @@
+import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { options } from "../api/auth/[...nextauth]/options";
 
-'use client'
-
-import React, { useState } from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Menu } from 'antd';
-
-import Link from 'next/link'
-
-const items: MenuProps['items'] = [
-  {
-    label: <Link href={"/"}>Home page</Link>,
-    key: 'homepage',
-  },
-  {
-    label: <Link href={"/users"}>Manage Users</Link>,
-    key: 'users',
-  },
-  {
-    label: <Link href={"/blogs"}>Manage Blogs</Link>,
-    key: 'blogs',
-  }
-];
-
-const Header: React.FC = () => {
-  const [current, setCurrent] = useState('homepage');
-
-  const onClick: MenuProps['onClick'] = (e) => {
-    // console.log('click ', e);
-    setCurrent(e.key);
-  };
-
-  return <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+const Nav = async () => {
+  const session = await getServerSession(options);
+  return (
+    <header className="bg-gray-600 text-gray-100">
+      <nav className="flex justify-between items-center w-full px-10 py-4">
+        <div>My Site</div>
+        <div className="flex gap-10">
+          <Link href="/">Home</Link>
+          <Link href="/blogs">Blogs</Link>
+          {/*<Link href="/CreateUser">Create User</Link>*/}
+          {/*<Link href="/ClientMember">Client Member</Link>*/}
+          <Link href="/Member">Member</Link>
+          <Link href="/Public">Public</Link>
+          {session ? (
+            <Link href="/api/auth/signout?callbackUrl=/">Logout</Link>
+          ) : (
+            <Link href="/api/auth/signin">Login</Link>
+          )}
+        </div>
+      </nav>
+    </header>
+  );
 };
 
-export default Header;
+export default Nav;
