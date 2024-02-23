@@ -4,7 +4,7 @@ import Image from 'next/image'
 export default function Home() {
     async function create(formData: FormData) {
     'use server'
-    console.log('dnsfkd', formData)
+    // console.log('dnsfkd', formData)
     // ...
     }
 
