@@ -2,7 +2,7 @@
 import { revalidateTag } from 'next/cache'
 
 export const handleCreateUserAction = async (data: any) => {
-    console.log(process.env.NEXT_PUBLIC_URL_BACKEND);
+    // console.log(process.env.NEXT_PUBLIC_URL_BACKEND);
     const res = await fetch(`${process.env.NEXT_PUBLIC_URL_BACKEND}/users`, {
         method: "POST",
         body: JSON.stringify(data),

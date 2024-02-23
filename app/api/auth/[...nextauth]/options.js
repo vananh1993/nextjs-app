@@ -5,6 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 
 export const options = {
+  
   providers: [
     GitHubProvider({
       profile(profile) {
